@@ -1,0 +1,52 @@
+section.hero{
+    height: 70vh;
+    width: 50vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1rem;
+
+    h1{
+        font-size: 1.5rem;
+        font-weight: 500;
+        color: #e63946;
+    }
+
+    h2{
+        font-size: 6rem !important;
+        margin-bottom: 0 !important;
+    }
+
+    h3{
+        font-size: 5rem;
+        font-weight: 600;
+        color: #8a94b3;
+    }
+
+    p{
+        font-size: 1.2rem;
+        color: #8a94b3;
+        width: 30vw;
+    }
+
+    @media screen and (max-width: 1200px){
+        width: 100%;
+
+        h1{
+            font-size: 1.5rem;
+        }
+
+        h2{
+            font-size: 3rem !important;
+        }
+
+        h3{
+            font-size: 2rem;
+        }
+
+        p{
+            font-size: 1rem;
+            width: 100%;
+        }
+    }
+}

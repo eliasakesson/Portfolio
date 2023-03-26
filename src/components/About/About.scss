@@ -1,0 +1,9 @@
+section.about{
+    min-width: 40vw;
+    width: 40vw;
+
+    @media screen and (max-width: 1200px){
+        min-width: 100%;
+        width: 100%;
+    }
+}

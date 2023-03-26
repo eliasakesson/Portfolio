@@ -1,0 +1,63 @@
+.overlay{
+    .left,
+    .right{
+        position: fixed;
+        bottom: 0;
+        
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .left{
+        left: 4rem;
+
+        li{
+            list-style-type: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            a{
+                padding: .5rem;
+            }
+
+            svg{
+                width: 1.5rem;
+                height: 1.5rem;
+                color: #fff;
+                cursor: pointer;
+            }
+        }
+    }
+
+    .right{
+        right: 4rem;
+        a{
+            .email{
+                writing-mode: vertical-rl;
+                font-size: 1rem;
+                color: #fff;
+                cursor: pointer;
+                text-decoration: none;
+                letter-spacing: 0.1em;
+            }
+        }
+    }
+
+    >::after{
+        content: "";
+        display: block;
+        width: 2px;
+        height: 200px;
+        background-color: #fff;
+    }
+
+    @media screen and (max-width: 1200px){
+        .left,
+        .right{
+            display: none;
+        }
+    }
+}
