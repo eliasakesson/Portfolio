@@ -1,15 +1,7 @@
 import { useEffect, useState } from 'react';
 import './Loader.scss';
 
-const Loader = () => {
-
-    const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
-        setTimeout(() => {
-            setLoading(false);
-        }, 1500);
-    }, []);
+const Loader = ({ loading } : { loading : boolean }) => {
 
     return (
         <div className={`loader ${!loading && "close"}`}>
