@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState, RefObject } from "react";
 
-const RevealAnim = ({ children, type, amount, transition, delay } : { children : any, type: string, amount?: string, transition? : string, delay? : string }) => {
+type StyleTypes = "opacity" | "scale" | "translateX" | "translateY";
+
+const RevealAnim = ({ children, type, amount, transition, delay } : { children : any, type: StyleTypes, amount?: string, transition? : string, delay? : string }) => {
 
     const [isVisible, setVisible] = useState(false);
     const domRef = useRef<HTMLDivElement>(null);
@@ -21,6 +23,7 @@ const RevealAnim = ({ children, type, amount, transition, delay } : { children :
 
         return () => observer.disconnect();
     }, []);
+
 
     const styles = {
         opacity: {
