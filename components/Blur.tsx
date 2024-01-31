@@ -30,7 +30,7 @@ export default function Blur() {
 		<>
 			<div
 				ref={ref}
-				className="pointer-events-none absolute -z-40 size-[50vh] origin-center animate-[spinmorpth_10s_infinite] rounded-full bg-gradient-to-r from-green-300 to-purple-400 opacity-50"
+				className="pointer-events-none absolute -z-40 size-[50vh] origin-center animate-[spinmorpth_10s_infinite] rounded-full bg-gradient-to-r from-green-300 to-purple-400 opacity-40"
 			></div>
 			<div className="pointer-events-none fixed bottom-0 left-0 right-0 top-0 -z-30 backdrop-blur-[200px]"></div>
 		</>
