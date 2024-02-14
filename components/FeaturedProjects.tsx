@@ -48,7 +48,7 @@ export default function FeaturedProjects() {
 						{ text: "Vercel", color: "bg-black" },
 						{ text: "Typescript", color: "bg-blue-500" },
 					]}
-					link="#"
+					link="https://www.novabase1.vercel.app"
 					className=""
 				/>
 				<ProjectCard
