@@ -174,7 +174,7 @@ export default function Technologies() {
 			<div className="absolute left-1/2 top-1/2 -z-10 size-[50vh] -translate-x-1/4 -translate-y-1/2 rounded-full border border-purple-500 border-opacity-30"></div>
 			<div className="absolute left-1/2 top-1/2 -z-10 size-[100vh] -translate-x-1/4 -translate-y-1/2 rounded-full border border-purple-500 border-opacity-30"></div>
 			<h2 className="mb-16 text-center text-2xl font-bold lg:text-4xl">
-				Here's what I'm good at
+				Here&apos;s what I&apos;m good at
 			</h2>
 			<div className="mx-auto grid w-fit grid-cols-7 gap-8 md:gap-12 lg:gap-16">
 				{technologies.map((technology) => (

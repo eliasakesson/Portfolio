@@ -60,9 +60,10 @@ export default function Loading() {
 				transition={{ delay: 1.75, duration: 0.5 }}
 				className="absolute left-1/2 top-1/2 aspect-square h-1/4 -translate-x-1/2 -translate-y-1/2 bg-purple-700 blur-[20vh]"
 			></motion.div>
-			{iconList.map((Icon) => {
+			{iconList.map((Icon, i) => {
 				return (
 					<motion.div
+						key={i}
 						initial={{ opacity: 1 }}
 						animate={{ opacity: 0 }}
 						transition={{

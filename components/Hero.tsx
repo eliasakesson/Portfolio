@@ -18,7 +18,7 @@ export default function Hero() {
 					stiffness: 100,
 				}}
 			>
-				Hey, I'm{" "}
+				Hey, I&apos;m{" "}
 				<span className="animate-[text-pan_3s_linear_infinite_alternate] bg-gradient-to-r from-purple-700 via-purple-400 to-purple-700 bg-clip-text text-transparent [background-size:200%]">
 					Elias
 				</span>
@@ -33,7 +33,8 @@ export default function Hero() {
 					stiffness: 50,
 				}}
 			>
-				I'm a <span className="text-center text-purple-300">full-stack</span>{" "}
+				I&apos;m a{" "}
+				<span className="text-center text-purple-300">full-stack</span>{" "}
 				developer from Sweden
 			</motion.h2>
 			<ul className="flex gap-16">
