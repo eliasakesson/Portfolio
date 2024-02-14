@@ -28,7 +28,7 @@ export default function FeaturedProjects() {
 						{ text: "SEO", color: "bg-green-500" },
 					]}
 					link="https://www.trasmakuf.se/"
-					github="https://github.com/eliasakesson/uf-ecom"
+					github="https://github.com/eliasakesson/trasmak-uf"
 					className="row-span-2"
 				/>
 				<ProjectCard

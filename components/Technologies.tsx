@@ -16,7 +16,7 @@ import {
 } from "react-icons/si";
 import { BiLogoCPlusPlus } from "react-icons/bi";
 import { VscJson } from "react-icons/vsc";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 export default function Technologies() {
 	const technologies = [
@@ -147,14 +147,26 @@ export default function Technologies() {
 	];
 
 	const [selectedTechnology, setSelectedTechnology] = useState<any>(null);
+	const [position, setPosition] = useState({ x: 0, y: 0 });
+	const parent = useRef<HTMLElement>(null);
 
 	function handleSelectTechnology(e: any, technology: any) {
 		e.stopPropagation();
-		setSelectedTechnology(technology.title);
+		if (!parent.current) return;
+
+		setSelectedTechnology(technology);
+
+		const parentRect = parent.current.getBoundingClientRect();
+
+		const rect = e.target.getBoundingClientRect();
+		const x = rect.left;
+		const y = rect.top - parentRect.top + rect.height + 16;
+		setPosition({ x, y });
 	}
 
 	return (
 		<section
+			ref={parent}
 			className="relative mb-64 px-8"
 			onClick={() => setSelectedTechnology(null)}
 		>
@@ -166,22 +178,28 @@ export default function Technologies() {
 			</h2>
 			<div className="mx-auto grid w-fit grid-cols-7 gap-8 md:gap-12 lg:gap-16">
 				{technologies.map((technology) => (
-					<div className="relative">
-						<button onClick={(e) => handleSelectTechnology(e, technology)}>
-							<technology.Icon className="text-4xl text-white transition-colors duration-300 hover:text-purple-500 md:text-5xl lg:text-6xl"></technology.Icon>
-						</button>
-						{technology.title === selectedTechnology && (
-							<motion.div
-								initial={{ scale: 0 }}
-								animate={{ scale: 1 }}
-								className="absolute left-0 top-[calc(100%+8px)] z-10 flex max-w-[60vw] origin-top-left flex-col gap-2 rounded-md border-2 border-slate-400 bg-slate-700 bg-opacity-20 p-4 backdrop-blur-[200px] transition-colors hover:border-slate-600 md:p-6 lg:p-8"
-							>
-								<h3 className="text-xl font-bold">{technology.title}</h3>
-								<p className="w-max max-w-prose">{technology.description}</p>
-							</motion.div>
-						)}
+					<div
+						key={technology.title}
+						className="relative cursor-pointer"
+						onPointerEnter={(e) => handleSelectTechnology(e, technology)}
+						onClick={(e) => handleSelectTechnology(e, technology)}
+					>
+						<technology.Icon className="text-4xl text-white transition-colors duration-300 hover:text-purple-500 md:text-5xl lg:text-6xl"></technology.Icon>
 					</div>
 				))}
+				{selectedTechnology && (
+					<motion.div
+						initial={{ scale: 0 }}
+						animate={{ scale: 1 }}
+						style={{ left: position.x, top: position.y }}
+						className="absolute z-10 flex max-w-[60vw] origin-top-left flex-col gap-2 rounded-md border-2 border-slate-400 bg-slate-700 bg-opacity-20 p-4 backdrop-blur-[15px] transition-all hover:border-slate-600 md:p-6 lg:p-8"
+					>
+						<h3 className="text-xl font-bold">{selectedTechnology.title}</h3>
+						<p className="w-max max-w-prose">
+							{selectedTechnology.description}
+						</p>
+					</motion.div>
+				)}
 			</div>
 		</section>
 	);
