@@ -20,8 +20,11 @@ const config: Config = {
 					"100%": { transform: "rotate(360deg)" },
 				},
 			},
+			colors: {
+				background: "var(--background)",
+			},
 		},
 	},
-	plugins: [],
+	plugins: [require("@tailwindcss/typography")],
 };
 export default config;

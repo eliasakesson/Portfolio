@@ -2,7 +2,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { IconType } from "react-icons";
-import { FaDesktop } from "react-icons/fa";
 import { GoArrowDown } from "react-icons/go";
 import {
 	SiReact,
@@ -22,27 +21,145 @@ import {
 	SiUnity,
 	SiVercel,
 	SiVite,
+	SiOpengl,
+	SiElectron,
+	SiWebrtc,
+	SiDotnet,
+	SiVisualstudio,
 } from "react-icons/si";
+import { RiExternalLinkFill } from "react-icons/ri";
+import { fetchReposWithImages } from "@/utils/repos";
+import { FaJava } from "react-icons/fa";
 
 export default function Projects() {
-	const [repos, setRepos] = useState<any[]>([]);
+	const [repos, setRepos] = useState<{
+		large: any[];
+		relevant: any[];
+		old: any[];
+	}>({ large: [], relevant: [], old: [] });
 
 	useEffect(() => {
 		const fetchProjects = async () => {
-			const data = await fetchRepositories();
+			const data = await fetchReposWithImages();
 			console.log(data);
-			setRepos(data);
+
+			setRepos(sortRepos(data));
 		};
 		fetchProjects();
 	}, []);
 
 	return (
-		<section className="p-16">
-			<h2>Projects</h2>
-			<div className="grid gap-8 lg:grid-cols-3">
-				{repos?.map((repo) => <ProjectCard key={repo.id} {...repo} />)}
+		<section className="space-y-24 p-8 lg:p-16">
+			<div className="space-y-12">
+				<div className="space-y-2">
+					<h2 className="text-center text-3xl font-semibold">
+						Relevant Projects
+					</h2>
+					<p className=" text-center italic">Live fetched from github</p>
+				</div>
+				<div className="grid gap-8 lg:grid-cols-2 2xl:grid-cols-3">
+					{repos?.large?.map((repo) => (
+						<BigProjectCard key={repo.id} {...repo} />
+					))}
+					{repos?.relevant?.map((repo) => (
+						<ProjectCard key={repo.id} {...repo} />
+					))}
+				</div>
+			</div>
+			<div className="space-y-12">
+				<h2 className="text-center text-3xl font-semibold">Old Projects</h2>
+				<div className="grid gap-8 lg:grid-cols-2 2xl:grid-cols-3">
+					{repos?.old?.map((repo) => <ProjectCard key={repo.id} {...repo} />)}
+				</div>
 			</div>
 		</section>
+	);
+}
+
+const largeProjects = ["Trasmak-UF"];
+
+const oldProjects = [
+	"eprojects",
+	"glossary-website",
+	"survival-game",
+	"Task-manager",
+	"Chatterly",
+	"Code-editor",
+	"opengl-minecraft",
+];
+
+function sortRepos(repos: any[]) {
+	const large = repos.filter((repo) => largeProjects.includes(repo.name));
+	const relevant = repos.filter(
+		(repo) =>
+			!largeProjects.includes(repo.name) && !oldProjects.includes(repo.name),
+	);
+	const old = repos.filter((repo) => oldProjects.includes(repo.name));
+
+	return {
+		large,
+		relevant,
+		old,
+	};
+}
+
+function BigProjectCard({
+	name,
+	description,
+	topics,
+	html_url,
+	homepage,
+	images,
+}: {
+	name: string;
+	description: string;
+	topics: string[];
+	html_url: string;
+	homepage: string;
+	images: string[];
+}) {
+	return (
+		<div className="flex flex-col divide-y divide-slate-700 overflow-hidden rounded-lg border border-slate-700 backdrop-blur-[1000px] lg:col-span-2 lg:flex-row">
+			<BigCardImage
+				src={images?.length >= 2 ? images[1] : "/images/featured.png"}
+				alt=""
+			/>
+			<div className="flex flex-col divide-y divide-slate-700">
+				<div className="flex divide-x divide-slate-700">
+					<div className="aspect-square">
+						<div className="relative aspect-square h-full">
+							<Image
+								src={images?.length >= 1 ? images[0] : ""}
+								alt=""
+								fill
+								className="object-contain"
+							/>
+						</div>
+					</div>
+					<div className="flex-grow px-8 py-4">
+						<h3 className="font-semibold">Name</h3>
+						<p>{name}</p>
+					</div>
+					<div className="flex-grow px-8 py-4">
+						<h3 className="font-semibold">Phase</h3>
+						<p className="flex items-center gap-2">
+							Building<span className="size-2 rounded-full bg-white"></span>
+						</p>
+					</div>
+				</div>
+				<div className="px-8 py-4">
+					<h3 className="mb-1 text-lg font-semibold">Stack</h3>
+					<div className="flex flex-wrap gap-3">
+						{topics.map((topic) => Topic(topic))}
+					</div>
+				</div>
+				<div className="flex-grow px-8 py-4">
+					<h3 className="text-lg font-semibold">Description</h3>
+					<p className="text-lg">{description}</p>
+				</div>
+				<ButtonRow name={name} homepage={homepage} html_url={html_url} />
+			</div>
+		</div>
 	);
 }
 
@@ -52,29 +169,45 @@ function ProjectCard({
 	topics,
 	html_url,
 	homepage,
+	images,
 }: {
 	name: string;
 	description: string;
 	topics: string[];
 	html_url: string;
 	homepage: string;
+	images: string[];
 }) {
 	return (
 		<div className="flex flex-col divide-y divide-slate-700 overflow-hidden rounded-lg border border-slate-700 backdrop-blur-[1000px]">
-			<CardImage src="/images/featured.png" alt="" />
+			{images?.length >= 2 && <CardImage src={images[1]} alt="" />}
 			<div className="flex divide-x divide-slate-700">
-				<div className="px-8 py-4">
+				{images?.length >= 1 && (
+					<div className="aspect-square p-4 lg:p-6">
+						<div className="relative aspect-square h-full">
+							<Image
+								src={images[0]}
+								alt=""
+								fill
+								className="rounded-lg object-contain"
+							/>
+						</div>
+					</div>
+				)}
+				<div className="flex-grow px-8 py-4">
 					<h3 className="font-semibold">Name</h3>
 					<p>{name}</p>
 				</div>
-				<div className="flex-1 px-8 py-4">
+			</div>
+			<div className="flex divide-x divide-slate-700">
+				<div className="flex-grow px-8 py-4">
 					<h3 className="font-semibold">Phase</h3>
 					<p className="flex items-center gap-2">
 						Building<span className="size-2 rounded-full bg-white"></span>
 					</p>
 				</div>
 				<div className="px-8 py-4">
-					<h3 className="font-semibold">Stack</h3>
+					<h3 className="mb-1 font-semibold">Stack</h3>
 					<div className="flex">{topics.map((topic) => Topic(topic))}</div>
 				</div>
 			</div>
@@ -83,6 +216,21 @@ function ProjectCard({
 				<p>{description}</p>
 			</div>
 			<ButtonRow name={name} homepage={homepage} html_url={html_url} />
+		</div>
+	);
+}
+
+function BigCardImage({ src, alt }: { src: string; alt: string }) {
+	return (
+		<div className="flex w-full items-center bg-slate-400 px-8 py-4">
+			<div className="relative aspect-video w-full">
+				<Image
+					src={src}
+					alt={alt}
+					fill
+					className="rounded-lg object-cover object-top"
+				/>
+			</div>
 		</div>
 	);
 }
@@ -124,7 +272,7 @@ function ButtonRow({
 	html_url: string;
 }) {
 	return (
-		<div className="flex divide-x">
+		<div className="flex divide-x divide-slate-700">
 			<Link
 				href={`?expand=${name}`}
 				shallow
@@ -140,7 +288,7 @@ function ButtonRow({
 					rel="noopener noreferrer"
 					className="flex items-center justify-center whitespace-nowrap px-8 py-4 transition-colors hover:bg-white hover:bg-opacity-5"
 				>
-					<FaDesktop />
+					<RiExternalLinkFill />
 				</a>
 			)}
 			{html_url && (
@@ -175,34 +323,6 @@ function Topic(topicString: string) {
 	}
 
 	return null;
-}
-
-async function fetchRepositories() {
-	try {
-		const res = await fetch("https://api.github.com/users/eliasakesson/repos", {
-			headers: {
-				Authorization: `token ${process.env.NEXT_PUBLIC_GITHUB_PERSONAL_ACCESS_TOKEN}`,
-			},
-		});
-
-		if (!res.ok) {
-			throw new Error(`Error fetching repositories: ${res.statusText}`);
-		}
-
-		const data = await res.json();
-
-		const filteredData = data.filter((repo: any) => repo.fork === false);
-		const sortedData = filteredData.sort((a: any, b: any) => {
-			const aDate = new Date(a.updated_at).getTime();
-			const bDate = new Date(b.updated_at).getTime();
-			return bDate - aDate;
-		});
-
-		return sortedData;
-	} catch (error) {
-		console.error(error);
-		return [];
-	}
 }
 
 const topics: {
@@ -300,6 +420,36 @@ const topics: {
 	github: {
 		Icon: SiGithub,
 		color: "#181717",
+		iconColor: "white",
+	},
+	java: {
+		Icon: FaJava,
+		color: "#007396",
+		iconColor: "white",
+	},
+	opengl: {
+		Icon: SiOpengl,
+		color: "white",
+		iconColor: "black",
+	},
+	electron: {
+		Icon: SiElectron,
+		color: "#47848F",
+		iconColor: "white",
+	},
+	webrtc: {
+		Icon: SiWebrtc,
+		color: "black",
+		iconColor: "white",
+	},
+	dotnet: {
+		Icon: SiDotnet,
+		color: "#512BD4",
+		iconColor: "white",
+	},
+	"visual-studio": {
+		Icon: SiVisualstudio,
+		color: "#5C2D91",
 		iconColor: "white",
 	},
 };

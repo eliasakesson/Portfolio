@@ -2,9 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --background: #0F0F0F;
+  --foreground: #eaeaea;
+}
+
 body {
-  color: #eaeaea;
-  background: #0F0F0F
+  color: var(--foreground);
+  background: var(--background);
 }
 
 @keyframes text-pan{

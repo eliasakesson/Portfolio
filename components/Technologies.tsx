@@ -189,12 +189,12 @@ export default function Technologies() {
 				))}
 				{selectedTechnology && (
 					<motion.div
-						initial={{ scale: 0 }}
-						animate={{ scale: 1 }}
+						initial={{ opacity: 0 }}
+						animate={{ opacity: 1 }}
 						style={{ left: position.x, top: position.y }}
-						className="absolute z-10 flex max-w-[60vw] origin-top-left flex-col gap-2 rounded-md border-2 border-slate-400 bg-slate-700 bg-opacity-20 p-4 backdrop-blur-[15px] transition-all hover:border-slate-600 md:p-6 lg:p-8"
+						className="absolute z-10 flex max-w-[60vw] origin-top-left flex-col gap-1 rounded-md border border-slate-700 bg-background bg-opacity-20 p-4 backdrop-blur-[15px] transition-all hover:border-slate-600 md:p-6 lg:p-8"
 					>
-						<h3 className="text-xl font-bold">{selectedTechnology.title}</h3>
+						<h3 className="text-lg font-bold">{selectedTechnology.title}</h3>
 						<p className="w-max max-w-prose">
 							{selectedTechnology.description}
 						</p>
