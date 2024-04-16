@@ -1,9 +1,7 @@
 import Blur from "@/components/Blur";
-import ProjectCard from "@/components/ProjectCard";
 import Hero from "@/components/Hero";
 import About from "@/components/About";
 import Technologies from "@/components/Technologies";
-import FeaturedProjects from "@/components/FeaturedProjects";
 import Projects from "@/components/Projects";
 import ExpandedProject from "@/components/ExpandedProject";
 

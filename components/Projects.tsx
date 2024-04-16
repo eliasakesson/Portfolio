@@ -183,7 +183,7 @@ function ProjectCard({
 			{images?.length >= 2 && <CardImage src={images[1]} alt="" />}
 			<div className="flex divide-x divide-slate-700">
 				{images?.length >= 1 && (
-					<div className="aspect-square p-4 lg:p-6">
+					<div className="aspect-square p-4">
 						<div className="relative aspect-square h-full">
 							<Image
 								src={images[0]}
@@ -276,9 +276,9 @@ function ButtonRow({
 			<Link
 				href={`?expand=${name}`}
 				shallow
-				className="flex w-full items-center justify-center gap-2 px-8 py-4 transition-colors hover:bg-white hover:bg-opacity-5"
+				className="group flex w-full items-center justify-center gap-2 px-8 py-4 transition-colors hover:bg-white hover:bg-opacity-5"
 			>
-				<GoArrowDown />
+				<GoArrowDown className="group-hover:animate-bounce" />
 				View more
 			</Link>
 			{homepage && (
@@ -315,7 +315,9 @@ function Topic(topicString: string) {
 				style={{ backgroundColor: color }}
 			>
 				<div className="absolute left-[-25%] top-[-100%] z-10 hidden rounded-full bg-black px-4 py-2 group-hover:flex">
-					<p className="text-white">{topicString}</p>
+					<p className="text-white">
+						{topicString.slice(0, 1).toUpperCase() + topicString.slice(1)}
+					</p>
 				</div>
 				<Icon className="text-lg" style={{ color: iconColor }} />
 			</div>
