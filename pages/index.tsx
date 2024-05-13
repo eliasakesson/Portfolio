@@ -1,20 +1,51 @@
-import Blur from "@/components/Blur";
 import Hero from "@/components/Hero";
 import About from "@/components/About";
 import Technologies from "@/components/Technologies";
+import { createContext, useState } from "react";
+import { fetchReposWithImages, sortRepos } from "@/utils/repos";
+import { PointerCircleProvider } from "@/components/PointerCircle";
+import Header from "@/components/Header";
+import Contact from "@/components/Contact";
+import Footer from "@/components/Footer";
 import Projects from "@/components/Projects";
-import ExpandedProject from "@/components/ExpandedProject";
 
-export default function Home() {
+export const HomeContext = createContext({
+	repos: [],
+	focusedTopic: "",
+	setFocusedTopic: (topic: string) => {},
+} as {
+	repos: any[];
+	focusedTopic: string;
+	setFocusedTopic: (topic: string) => void;
+});
+
+export default function Home({ repos }: { repos: any[] }) {
+	const [focusedTopic, setFocusedTopic] = useState<string>("");
+
 	return (
-		<div className="relative overflow-hidden py-8">
-			<div className="absolute left-0 right-0 top-0 -z-50 h-[90dvh] bg-slate-950"></div>
-			<Blur />
-			<Hero />
-			<About />
-			<Technologies />
-			<Projects />
-			<ExpandedProject />
-		</div>
+		<main className="relative overflow-hidden">
+			<HomeContext.Provider value={{ repos, focusedTopic, setFocusedTopic }}>
+				<PointerCircleProvider>
+					<Header />
+					<Hero />
+					<About />
+					<Technologies />
+					<Projects />
+					<Contact />
+					<Footer />
+				</PointerCircleProvider>
+			</HomeContext.Provider>
+		</main>
 	);
+}
+
+export async function getStaticProps() {
+	const repos = await fetchReposWithImages();
+	const sortedRepos = sortRepos(repos);
+
+	return {
+		props: {
+			repos: sortedRepos,
+		},
+	};
 }

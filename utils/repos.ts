@@ -1,4 +1,5 @@
 import { marked } from "marked";
+import { load } from "cheerio";
 
 export async function fetchRepositories() {
 	try {
@@ -64,20 +65,93 @@ export async function fetchRepoImages(repo: string) {
 	try {
 		const readme = await fetchReadme(repo);
 		if (!readme || !readme.content) {
+			console.error(`No readme found for ${repo}`);
 			return null;
 		}
+		console.log(readme);
 
 		const markdown = await marked.parse(atob(readme.content));
-		const div = document.createElement("div");
-		div.innerHTML = markdown;
-		const images = div.querySelectorAll("img");
-		const imageSrcs = Array.from(images).map((image) => image.src);
+
+		const $ = load(markdown); // Load the markdown content into cheerio
+
+		const images = $("img"); // Select all <img> elements
+		const imageSrcs: string[] = [];
+
+		images.each((index, element) => {
+			const src = $(element).attr("src"); // Get the src attribute of each <img>
+			if (src) {
+				imageSrcs.push(src); // Push the image src into the array
+			}
+		});
+
 		const githubImages = imageSrcs.filter((src) =>
 			src.includes("raw.githubusercontent.com"),
 		);
+		console.log(githubImages);
 		return githubImages;
 	} catch (error) {
 		console.error(error);
 		return null;
 	}
+}
+
+const largeProjects = ["Trasmak-UF"];
+
+const oldProjects = [
+	"Portfolio",
+	"eprojects",
+	"glossary-website",
+	"survival-game",
+	"Task-manager",
+	"Chatterly",
+	"Code-editor",
+	"opengl-minecraft",
+];
+
+const mainProjects = ["Trasmak-UF", "Novabase", "Unity-Chess", "Volted"];
+
+export function sortRepos(repos: any[]) {
+	// Sort the repos so that the main projects are first
+	const main = repos.filter((repo) => mainProjects.includes(repo.name));
+	const other = repos.filter((repo) => !mainProjects.includes(repo.name));
+
+	// Sort repos by order in mainProjects
+	const sortedMain = main.sort(
+		(a, b) => mainProjects.indexOf(a.name) - mainProjects.indexOf(b.name),
+	);
+
+	return [...sortedMain, ...other];
+}
+
+export function sortRepos2(repos: any[]): {
+	large: any[];
+	relevant: any[];
+	old: any[];
+} {
+	const large = repos.filter((repo) => largeProjects.includes(repo.name));
+	const relevant = repos.filter(
+		(repo) =>
+			!largeProjects.includes(repo.name) && !oldProjects.includes(repo.name),
+	);
+	const old = repos.filter((repo) => oldProjects.includes(repo.name));
+
+	// Sort so that its in the order: large relevant relevant large relevant relevant large ...
+	const relevantWithLarge = relevant.reduce((acc, repo, i) => {
+		if (i % 2 === 0) {
+			if (large.length === 0) {
+				acc.push(repo);
+				return acc;
+			}
+			acc.push(large.shift());
+		} else {
+			acc.push(repo);
+		}
+		return acc;
+	}, [] as any[]);
+
+	return {
+		large,
+		relevant: relevantWithLarge,
+		old,
+	};
 }

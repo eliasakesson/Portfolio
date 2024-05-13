@@ -1,14 +1,22 @@
 export default function About() {
 	return (
-		<section className="mx-auto mb-32 flex max-w-7xl flex-col items-center justify-between gap-8 px-8 lg:flex-row">
-			<h2 className="text-5xl font-bold lg:text-6xl">About me</h2>
-			<p className="max-w-prose text-lg lg:text-xl lg:leading-normal xl:text-2xl xl:leading-normal">
-				I&apos;m a 18 year old developer from Sweden. I love to learn new things
-				and develop new skills. I mostly focus on programming web applications,
-				but I also do games, mobile- and desktop applications, electronics, and
-				have been doing it since 2018. I&apos;m currently studying my last year
-				of high school and will graduate in June 2024. I&apos;m looking for a
-				job as a developer starting in summer 2024.
+		<section
+			id="about"
+			className="mx-auto flex max-w-7xl flex-col justify-between gap-8 px-8 py-16"
+		>
+			<h2 className="whitespace-nowrap text-4xl font-bold lg:mt-16 lg:text-5xl">
+				About me
+			</h2>
+			<p className="max-w-prose text-lg lg:text-xl lg:leading-normal xl:text-3xl xl:leading-normal">
+				<b>18 year old</b> software developer from Sweden. Currently studying{" "}
+				<b>information-technology</b> at high school, expecting to graduate in
+				summer 2024.
+			</p>
+			<p className="max-w-prose text-lg lg:text-xl lg:leading-normal xl:text-3xl xl:leading-normal">
+				<b>6 years</b> of experience in programming, <b>3 years</b> of
+				experience in developing web applications. Mostly focusing on
+				<b> full-stack development</b>, but also doing games, mobile- and
+				desktop applications, electronics, and more.
 			</p>
 		</section>
 	);

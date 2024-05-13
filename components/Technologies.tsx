@@ -25,40 +25,24 @@ import {
 	SiWebrtc,
 	SiVisualstudio,
 } from "react-icons/si";
-import { useRef, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import { IconType } from "react-icons";
+import { PointerCircleContext } from "./PointerCircle";
 
 export default function Technologies() {
-	const [selectedTechnology, setSelectedTechnology] = useState<any>(null);
-	const [position, setPosition] = useState({ x: 0, y: 0 });
-	const parent = useRef<HTMLElement>(null);
+	const { onHover, onLeave } = useContext(PointerCircleContext);
 
-	function handleSelectTechnology(e: any, technology: any) {
-		e.stopPropagation();
-		if (!parent.current) return;
-
-		setSelectedTechnology(technology);
-
-		const parentRect = parent.current.getBoundingClientRect();
-
-		const rect = e.target.getBoundingClientRect();
-		const x = window.innerWidth < 1024 ? 32 : rect.left;
-		const y = rect.top - parentRect.top + rect.height + 16;
-
-		setPosition({ x, y });
-	}
-
-	function closeTechnology(e: any) {
-		e.stopPropagation();
-		setSelectedTechnology(null);
+	function onHoverHandler(e: MouseEvent, [key, value]: [string, any]) {
+		onHover(
+			e as any,
+			90,
+			`<b>${key.slice(0, 1).toUpperCase() + key.slice(1)}</b><br />${value.description}`,
+			0.25,
+		);
 	}
 
 	return (
-		<section
-			ref={parent}
-			className="relative mb-64 px-8"
-			onClick={() => setSelectedTechnology(null)}
-		>
+		<section id="skills" className="relative px-8 py-32 lg:py-64">
 			<div className="absolute left-1/2 top-1/2 -z-10 size-[40vh] -translate-x-1/2 -translate-y-1/2 animate-[pulse_5s_infinite] rounded-full bg-purple-500 bg-opacity-40 blur-[200px]"></div>
 			<div className="absolute left-1/2 top-1/2 -z-10 size-[50vh] -translate-x-1/4 -translate-y-1/2 rounded-full border border-purple-500 border-opacity-30"></div>
 			<div className="absolute left-1/2 top-1/2 -z-10 size-[100vh] -translate-x-1/4 -translate-y-1/2 rounded-full border border-purple-500 border-opacity-30"></div>
@@ -70,8 +54,10 @@ export default function Technologies() {
 					<div
 						key={key}
 						className="relative cursor-pointer rounded-full p-4"
-						onPointerEnter={(e) => handleSelectTechnology(e, key)}
-						onClick={(e) => handleSelectTechnology(e, key)}
+						onMouseEnter={(e) => onHoverHandler(e as any, [key, value])}
+						onMouseLeave={onLeave}
+						onTouchStart={(e) => onHoverHandler(e as any, [key, value])}
+						onTouchEnd={onLeave}
 						style={{ backgroundColor: value.color }}
 					>
 						<value.Icon
@@ -81,27 +67,6 @@ export default function Technologies() {
 					</div>
 				))}
 			</div>
-			{selectedTechnology && (
-				<motion.div
-					initial={{ opacity: 0 }}
-					animate={{ opacity: 1 }}
-					style={{ left: position.x, top: position.y }}
-					className="pointer-events-none absolute z-10 w-min rounded-lg bg-background p-4"
-				>
-					<div className="flex items-center justify-between">
-						<h3 className="w-fit text-lg font-bold">
-							{selectedTechnology.slice(0, 1).toUpperCase() +
-								selectedTechnology.slice(1)}
-						</h3>
-						<button className="pointer-events-auto" onClick={closeTechnology}>
-							<FaTimes />
-						</button>
-					</div>
-					<p className="min-w-[min(65ch,calc(100vw-64px))]">
-						{topics[selectedTechnology].description}
-					</p>
-				</motion.div>
-			)}
 		</section>
 	);
 }
