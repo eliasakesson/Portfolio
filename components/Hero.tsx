@@ -44,7 +44,7 @@ export default function Hero() {
 			className="grid h-[100dvh] grid-rows-4 divide-y-2 divide-slate-300 pt-[10vh] md:h-[100dvh] lg:divide-none lg:py-[20vh]"
 		>
 			<div className={styles.heroRow}>
-				<h1 className={styles.heroText}>Hi, I'm</h1>
+				<h1 className={styles.heroText}>Hi, I&apos;m</h1>
 				<a
 					href="#projects"
 					onClick={() => setFocusedTopic("react")}

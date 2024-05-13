@@ -40,8 +40,8 @@ export default function Contact() {
 			<div className="flex flex-col gap-4">
 				<h2 className="text-2xl font-bold lg:text-4xl">Contact me</h2>
 				<p className="max-w-[40ch] text-lg lg:text-xl lg:leading-normal xl:text-2xl xl:leading-normal">
-					I'm always open to new opportunities and collaborations. Feel free to
-					reach out to me for any inquiries.
+					I&apos;m always open to new opportunities and collaborations. Feel
+					free to reach out to me for any inquiries.
 				</p>
 			</div>
 			<form className="max-w-xl flex-grow" onSubmit={handleSubmit}>

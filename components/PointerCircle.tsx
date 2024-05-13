@@ -171,3 +171,5 @@ const PointerCircle = forwardRef(
 		);
 	},
 );
+
+PointerCircle.displayName = "PointerCircle";
