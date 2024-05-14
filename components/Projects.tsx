@@ -58,7 +58,6 @@ function Project({
 	const videoRef = useRef<HTMLVideoElement>(null);
 
 	const [isHovered, setIsHovered] = useState(false);
-	const videoExists = useFileExists(`/videos/${name}.mp4`);
 
 	function handleMouseEnter() {
 		videoRef.current?.setAttribute("autoplay", "true");
@@ -111,20 +110,17 @@ function Project({
 						src={images?.[1] || "https://via.placeholder.com/500"}
 						alt="Trasmak-UF"
 						fill
-						style={{ opacity: isHovered && videoExists ? 0 : 1 }}
-						className="object-cover brightness-50 transition-opacity duration-500"
+						className="-z-10 object-cover brightness-50 transition-opacity duration-500"
 					/>
-					{videoExists && (
-						<video
-							ref={videoRef}
-							style={{ opacity: isHovered ? 1 : 0 }}
-							className="h-full w-full transition-opacity duration-500 md:object-cover"
-							muted
-							loop
-						>
-							<source src={`/videos/${name}.mp4`} type="video/mp4" />
-						</video>
-					)}
+					<video
+						ref={videoRef}
+						style={{ opacity: isHovered ? 1 : 0 }}
+						className="h-full w-full transition-opacity duration-500 md:object-cover"
+						muted
+						loop
+					>
+						<source src={`/videos/${name}.mp4`} type="video/mp4" />
+					</video>
 					<div className="absolute bottom-0 left-0 right-0 top-0 shadow-[inset_0_0_10vh_10vh_rgba(0,0,0,0.6)]"></div>
 				</div>
 			</div>
@@ -162,18 +158,3 @@ function Project({
 		</div>
 	);
 }
-
-const useFileExists = (url: string) => {
-	const [exists, setExists] = useState(false);
-
-	useEffect(() => {
-		fetch(url)
-			.then((res) => {
-				if (res.ok) setExists(true);
-				else setExists(false);
-			})
-			.catch(() => setExists(false));
-	}, [url]);
-
-	return exists;
-};
