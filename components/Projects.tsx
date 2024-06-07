@@ -119,7 +119,11 @@ function Project({
 						muted
 						loop
 					>
-						<source src={`/videos/${name}.mp4`} type="video/mp4" />
+						<source
+							src={`/videos/${name.toLowerCase()}.mp4`}
+							type="video/mp4"
+						/>
+						Your browser does not support the video tag.
 					</video>
 					<div className="absolute bottom-0 left-0 right-0 top-0 shadow-[inset_0_0_10vh_10vh_rgba(0,0,0,0.6)]"></div>
 				</div>
